@@ -8,7 +8,7 @@ vars:
 tasks:
   release:
     cmds:
-      - goreleaser --rm-dist --skip-publish
+      - goreleaser --rm-dist
     silent: true
   snap:
     cmds:
