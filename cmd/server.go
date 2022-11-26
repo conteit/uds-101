@@ -14,8 +14,7 @@ var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Spawns an echo server process",
 	Run: func(cmd *cobra.Command, args []string) {
-		sockAddress := viper.GetString(ParamSocket)
-		<-server.EchoOn(sockAddress)
+		<-server.EchoOn(viper.GetString(ParamSocket))
 	},
 }
 

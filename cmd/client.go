@@ -4,7 +4,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"com.github/conteit/uds-101/internal/client"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // clientCmd represents the client command
@@ -12,7 +14,7 @@ var clientCmd = &cobra.Command{
 	Use:   "client",
 	Short: "Spawns an echo client process",
 	Run: func(cmd *cobra.Command, args []string) {
-
+		<-client.EchoTo(viper.GetString(ParamSocket))
 	},
 }
 
