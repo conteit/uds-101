@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 	"github.com/segmentio/ksuid"
@@ -65,7 +66,7 @@ func echo(c net.Conn) {
 			return
 		}
 
-		fmt.Print(line)
+		log.Info().Str("uid", uid).Str("content", strings.ReplaceAll(line, "\n", "")).Msg("message received")
 		c.Write([]byte(line + "\n"))
 	}
 }
