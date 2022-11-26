@@ -5,6 +5,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 )
@@ -23,7 +24,25 @@ func EchoTo(addr string) <-chan struct{} {
 		defer s.Close()
 
 		go func() {
-			io.Copy(s, os.Stdout)
+			r := bufio.NewReader(s)
+			for {
+				line, err := r.ReadString('\n')
+				if err == io.EOF {
+					close(c)
+					return
+				} else if err != nil {
+					log.Fatal().
+						Err(err).
+						Msg("failed reading from socket")
+					close(c)
+					return
+				}
+				if strings.Index(line, "<uid:") == 0 {
+					log.Info().Str("uid", line[5:len(line)-1]).Msg("connected")
+				} else if line != "\n" {
+					log.Info().Msg(strings.ReplaceAll(line, "\n", ""))
+				}
+			}
 		}()
 
 		r := bufio.NewReader(os.Stdin)
@@ -37,7 +56,7 @@ func EchoTo(addr string) <-chan struct{} {
 					Msg("failed reading stdin")
 				close(c)
 			}
-			s.Write([]byte(line + "\n"))
+			s.Write([]byte(line))
 		}
 
 	}()
