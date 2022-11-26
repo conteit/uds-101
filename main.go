@@ -3,7 +3,10 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "com.github/conteit/uds-101/cmd"
+import (
+	"com.github/conteit/uds-101/cmd"
+	"github.com/rs/zerolog"
+)
 
 var (
 	version = "dev"
@@ -12,6 +15,7 @@ var (
 )
 
 func main() {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	cmd.SetVersion(version, commit, date)
 	cmd.Execute()
 }
