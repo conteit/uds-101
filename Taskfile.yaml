@@ -1,0 +1,16 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  release:
+    cmds:
+      - goreleaser --rm-dist --skip-publish
+    silent: true
+  snap:
+    cmds:
+      - goreleaser --rm-dist --skip-publish --snapshot
+    silent: true
